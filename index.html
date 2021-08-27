@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!--Link to CSS-->
-    <link rel="stylesheet" href="style.css">
-
-    <!--Link to bootstrap-->
+      <!--Link to bootstrap-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+        <!--Link to CSS-->
+    <link rel="stylesheet" href="style.css">
     <title>Weather Dashboard</title>
 </head>
 
@@ -23,19 +23,30 @@
         </div>
     </div>
     <!--Search Bar-->
-    <div class="row">
-        <div class="col-3 m-2 bg-light">
-            <h3>Search for a City:</h3>
-            <div class="input-group mb-2">
-                <input type="text" class="form-control" id="city-input" aria-describedby="basic-addon2">
-                <div class="input-group-append">
-                    <button id="add-city" class="btn btn-outline-secondary bg-primary" type="button">
-                        <ion-icon name="search-outline"></ion-icon>
-                    </button>
-                </div>
+    <div class = "row">
+        <div class="col-12 col-md-3 p-2 search-column">
+            <form class = "border p-2" id = "city-search-form">
+                <h4>Search for a City</h2>
+                <input id="city" type = "text" autofocus = "true" class = "form-input"/>
+                <button class = "btn btn-primary" type = "submit">Search</button>
+            </form>
+            <div class = "past-search border" id = "past-search-buttons"></div>
+        </div>
+        <div class="col-12 col-md-9">
+            <div class = "row border selected-city" id = "current-weather">
+                <div class = "col-12">
+                    <h2 id="searched-city"></h2>
+                    <div id = "current-weather-container" class = "list-group"></div>
+                </div>  
             </div>
+            <div class = "row border" id = "five-day-forecast">
+                    <h2 class= "col-12" id = "forecast"></h2>
+                    <div class = "d-flex" id = "five-day-container"></div>
+            </div>  
         </div>
     </div>
+    
+
 </body>
 
 </html>
