@@ -37,6 +37,71 @@ var submitHandler = function(event) {
 }
  var saveSearch = function(){
      localStorage.setItem("cities", JSON.stringify(cities))
+     console.log(saveSearch)
+ }
+
+ var displayWeather = function(weather, searchCity){
+     weatherContainerEl.textContent= "";
+     searchedCityEl.textContent=searchCity;
+
+     var currentDate = document.createElement('span')
+     currentdate.textContent='(' + moment(weather.dt.value).format('MM DD YYYY') + ')';
+     searchedCityEl.appendChild(currentDate);
+
+     var weatherIcon = document.createElement('img');
+     weatherIcon.setAttribute('src', 'https://openweathermap.org/img/w/10d.png');
+     searchedCityEl.appendChild(weatherIcon);
+
+     var currentTemp = document.createElement('span');
+     currentTemp.textContent = "Temp: " + weather.main.temp + " F";
+     currentTemp.classList = "list-group-item";
+     weatherContainerEl.appendChild(currentTemp);
+
+     var windSpeedEl = document.createElement('span');
+     windSpeedEl.textContent = "Wind: " + weather.main.speed + "MPH";
+     windSpeedEl.classList = "list-group-item";
+     weatherContainerEl.appendChild(windSpeedEl);
+
+     var humidityEl = document.createElement('span');
+     humidityEl.textContent = "Humidity " + weather.main.humidity + " %";
+     humidityEl.classList = "list-group-item";
+     weatherContainerEl.appendChild(humidityEl);
+
+     var lon = weather.coord.lon;
+     var lat = weather.coord.lat;
+     getUvIndex(lat,lon)
+ }
+
+ var getUvIndex = function(lat,lon) {
+     var apiKey = "694f5009d1a6972628a7c5264c2d4fd9"
+     var apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}"
+     fetch(apiUrl)
+     .then(function(response){
+         response.json().then(function(data){
+             displayUvindex(data)
+         });
+     });
+ }
+
+ var displayUvindex = function(index){
+     var indexEl = document.createElement('div');
+     indexEl.textContent = "UV Index: ";
+     indexEl.classList = "list-group-item";
+
+     uvValue = document.createElement('span');
+     uvValue.classList = index.value;
+
+     if (index.value <=2){
+         uvValue.textContent = "Low"
+     }else if (index.value >2 && index.value<=8){
+         uvValue.classList = "Moderate"
+     }
+     else if (index.value >8){
+         uvValue.classList = "Severe"
+     };
+
+     indexEl.appendChild(uvValue);
+     weatherContainerEl.appendChild(indexEl);
  }
 
  var getfiveDay = function(city) {
@@ -93,3 +158,8 @@ var submitHandler = function(event) {
 
      }
  }
+
+
+
+ cityFormEl.addEventListener("submit", submitHandler);
+ 
