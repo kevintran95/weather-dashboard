@@ -11,14 +11,10 @@ youtube.com
 Kevin Tran
 
 ## Link
+https://kevintran95.github.io/weather-dashboard/
 
 ## Screenshot
-
-
-
-
-
-
+![Screen Shot 2021-08-29 at 9 27 10 PM](https://user-images.githubusercontent.com/87213793/131285613-0e38eec9-f96d-4c95-834c-9f526ca391a5.png)
 
 
 
