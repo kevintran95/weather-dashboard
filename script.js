@@ -11,7 +11,7 @@ var cities = [];
 
 var getCityWeather = function (city) {
     var apiKey = "694f5009d1a6972628a7c5264c2d4fd9"
-    var apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`
+    var apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`
     console.log(getCityWeather)
 
     fetch( apiUrl )
@@ -34,11 +34,11 @@ var submitHandler = function (event) {
         alert("You must enter a city")
     }
     saveSearch();
-    pastSearch();
+    pastSearch(city);
 }
 var saveSearch = function () {
     localStorage.setItem("cities", JSON.stringify(cities))
-    console.log(saveSearch)
+    
 }
 
 var displayWeather = function (weather, searchCity) {
@@ -54,7 +54,7 @@ var displayWeather = function (weather, searchCity) {
     searchedCityEl.appendChild(weatherIcon);
 
     var currentTemp = document.createElement('span');
-    currentTemp.textContent = "Temp: " + weather.main.temp + " F";
+    currentTemp.textContent = "Temp: " + weather.main.temp + " °F";
     currentTemp.classList = "list-group-item";
     weatherContainerEl.appendChild(currentTemp);
 
@@ -68,8 +68,8 @@ var displayWeather = function (weather, searchCity) {
     humidityEl.classList = "list-group-item";
     weatherContainerEl.appendChild(humidityEl);
 
-    var lon = weather.coord.lon;
     var lat = weather.coord.lat;
+    var lon = weather.coord.lon;
     getUvIndex(lat, lon)
 }
 
@@ -97,7 +97,7 @@ var displayfiveDay = function (weather) {
         forecastEl.classList = 'card bg-primary text-light m-2';
 
         var forecastDate = document.createElement('h4');
-        forecastDate.textContent = moment.unix(dailyForecast.dt).format("MMM D YYYY")
+        forecastDate.textContent = moment.unix(dailyForecast.dt).format("MMM D, YYYY")
         forecastDate.classList = 'card-header text-center';
         forecastEl.appendChild(forecastDate);
 
@@ -107,18 +107,18 @@ var displayfiveDay = function (weather) {
         forecastEl.appendChild(weatherIcon)
 
         var forecastTempEl = document.createElement('span');
-        forecastTempEl.classList = 'card-body text-center';
-        forecastTempEl.textContent = dailyForecast.main.temp + " F";
+        forecastTempEl.classList = 'card-body text-left';
+        forecastTempEl.textContent = 'Temp: ' + dailyForecast.main.temp + " °F";
         forecastEl.appendChild(forecastTempEl);
 
         var windSpeedEl = document.createElement('span');
         windSpeedEl.class = 'card-body text-center';
         windSpeedEl.textContent = dailyForecast.main.wind + ' MPH';
         forecastEl.appendChild(windSpeedEl); 8
-
+ 
         var humidityEl = document.createElement('span');
         humidityEl.class = 'card-body text-center';
-        humidityEl.textContent = dailyForecast.main.humidity + ' %';
+        humidityEl.textContent = 'Humidity: ' + dailyForecast.main.humidity +  ' %';
         forecastEl.appendChild(humidityEl);
 
         forecastContainerEl.appendChild(forecastEl);
@@ -130,7 +130,7 @@ var displayfiveDay = function (weather) {
 
 var getUvIndex = function (lat, lon) {
     var apiKey = `694f5009d1a6972628a7c5264c2d4fd9`
-    var apiUrl = `https://api.openweathermap.org/data/2.5/uvi?appid=${apiKey}&lat=${lat}&lon=${lon}`
+    var apiUrl = `https://api.openweathermap.org/data/2.5/current.uvi?appid=${apiKey}&lat=${lat}&lon=${lon}`
     fetch(apiUrl)
         .then(function (response) {
             response.json().then(function (data) {
@@ -167,7 +167,7 @@ var pastSearch = function(pastSearch){
     pastSearchEl = document.createElement("button");
     pastSearchEl.textContent = pastSearch;
     pastSearchEl.classList = "d-flex w-100 btn-light border p-2";
-    pastSearchEl.setAttribute("data-city",pastSearch)
+    pastSearchEl.setAttribute("city-data",pastSearch)
     pastSearchEl.setAttribute("type", "submit");
 
     pastButton.prepend(pastSearchEl);
@@ -175,13 +175,14 @@ var pastSearch = function(pastSearch){
 
 
 var pastSearchHandler = function(event){
-    var city = event.target.getAttribute("data-city")
+    var city = event.target.getAttribute("city-data")
     if(city){
         getCityWeather(city);
         getfiveDay(city);
     }
 }
 
+pastSearch()
 
 
 cityFormEl.addEventListener("submit", submitHandler);
