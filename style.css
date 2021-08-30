@@ -1,4 +1,13 @@
 .jumbotron {
-    background-color: darkblue;
+    background:
+    linear-gradient(
+  rgba(7, 7, 240, 0.25), 
+  rgba(72, 147, 247, 0.815)
+    );
     color: white;
+}
+
+h1 {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    text-decoration: underline;
 }
